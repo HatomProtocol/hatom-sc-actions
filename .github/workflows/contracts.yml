@@ -57,9 +57,11 @@ on:
       token:
         description: "Github token"
         required: true
-      ssh-private-key:
-        description: "SSH private key"
+      hatom-protocol-ssh-private-key:
+        description: "Hatom Protocol Deploy SSH private key"
         required: false
+      hatom-ush-minter-ssh-private-key:
+        description: "Hatom USH Minter Deploy SSH private key"
 
 jobs:
   wasm_test:
@@ -72,7 +74,9 @@ jobs:
         uses: webfactory/ssh-agent@v0.9.0
         if: inputs.has-private-dependencies
         with:
-          ssh-private-key: ${{ secrets.ssh-private-key }}
+          ssh-private-key: |
+            ${{ secrets.hatom-protocol-ssh-private-key }}
+            ${{ secrets.hatom-ush-minter-ssh-private-key }}
 
       - name: Clone submodules
         run: git submodule update --init --recursive --remote
@@ -210,7 +214,9 @@ jobs:
         uses: webfactory/ssh-agent@v0.9.0
         if: inputs.has-private-dependencies
         with:
-          ssh-private-key: ${{ secrets.ssh-private-key }}
+          ssh-private-key: |
+            ${{ secrets.hatom-protocol-ssh-private-key }}
+            ${{ secrets.hatom-ush-minter-ssh-private-key }}
 
       - name: Clone submodules
         run: git submodule update --init --recursive --remote
@@ -280,7 +286,9 @@ jobs:
         uses: webfactory/ssh-agent@v0.9.0
         if: inputs.has-private-dependencies
         with:
-          ssh-private-key: ${{ secrets.ssh-private-key }}
+          ssh-private-key: |
+            ${{ secrets.hatom-protocol-ssh-private-key }}
+            ${{ secrets.hatom-ush-minter-ssh-private-key }}
 
       - name: Clone submodules
         run: git submodule update --init --recursive --remote
