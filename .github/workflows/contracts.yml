@@ -78,10 +78,7 @@ jobs:
         uses: webfactory/ssh-agent@v0.9.0
         if: inputs.has-private-dependencies
         with:
-          ssh-private-key: |
-            ${{ secrets.hatom-protocol-ssh-private-key }}
-            ${{ secrets.hatom-ush-minter-ssh-private-key }}
-            ${{ secrets.hatom-admin-module-ssh-private-key }}
+          ssh-private-key: ${{ secrets.hatom-admin-module-ssh-private-key }}
 
       - name: Clone submodules
         run: git submodule update --init --recursive --remote
