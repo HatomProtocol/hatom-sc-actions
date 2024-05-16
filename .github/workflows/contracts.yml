@@ -119,16 +119,19 @@ jobs:
       - name: Build the wasm contracts
         env:
           RUSTFLAGS: ""
+          CARGO_NET_GIT_FETCH_WITH_CLI: true
         run: sc-meta all build --no-imports --target-dir $(pwd)/target --path .
 
       - name: Run the wasm tests
         env:
           RUSTFLAGS: ""
+          CARGO_NET_GIT_FETCH_WITH_CLI: true
         run: cargo test --features multiversx-sc-scenario/run-go-tests
 
       - name: Generate the contract report
         env:
           RUSTFLAGS: ""
+          CARGO_NET_GIT_FETCH_WITH_CLI: true
         run: |
           sc-meta all build-dbg --twiggy-paths --target-dir $(pwd)/target --path .
           mxpy contract report --skip-build --skip-twiggy --output-format json --output-file report.json
@@ -237,6 +240,7 @@ jobs:
       - name: Run tests and generate report
         env:
           RUSTFLAGS: ""
+          CARGO_NET_GIT_FETCH_WITH_CLI: true
         run: |
           sc-meta test-coverage ${{ inputs.coverage-args }}
 
@@ -283,6 +287,7 @@ jobs:
       - name: Run the rust tests
         env:
           RUSTFLAGS: ""
+          CARGO_NET_GIT_FETCH_WITH_CLI: true
         run: cargo test
 
   clippy_check:
