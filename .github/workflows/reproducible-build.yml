@@ -123,7 +123,7 @@ jobs:
           cargos=($(echo **/Cargo.toml))
           cargos_s=$(printf -- '-s %s ' "${cargos[@]}")
           cargo vendor ${cargos_s} > .cargo/config.toml
-          rm vendor/**/multiversx.json
+          rm -f vendor/**/multiversx.json
         env:
           CARGO_NET_GIT_FETCH_WITH_CLI: true
 
