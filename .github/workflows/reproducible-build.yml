@@ -116,9 +116,6 @@ jobs:
           toolchain: ${{ inputs.rust-toolchain }}
           target: wasm32-unknown-unknown
 
-      - name: Install jq
-        run: sudo apt-get install jq
-
       - name: Fetch all packages
         run: |
           mkdir .cargo
