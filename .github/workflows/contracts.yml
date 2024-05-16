@@ -119,7 +119,6 @@ jobs:
       - name: Build the wasm contracts
         env:
           RUSTFLAGS: ""
-          CARGO_NET_GIT_FETCH_WITH_CLI: true
         run: sc-meta all build --no-imports --target-dir $(pwd)/target --path .
 
       - name: Run the wasm tests
