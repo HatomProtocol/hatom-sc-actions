@@ -116,6 +116,9 @@ jobs:
           toolchain: ${{ inputs.rust-toolchain }}
           target: wasm32-unknown-unknown
 
+      - name: Install jq
+        run: sudo apt-get install jq
+
       - name: Fetch all packages
         run: |
           mkdir .cargo
@@ -123,7 +126,13 @@ jobs:
           cargos=($(echo **/Cargo.toml))
           cargos_s=$(printf -- '-s %s ' "${cargos[@]}")
           cargo vendor ${cargos_s} > .cargo/config.toml
+
+          # Prevent mx-sdk-rust-contract-builder from bulding vendored dependencies
           rm -f vendor/**/multiversx.json
+
+          for checksum_file in **/.cargo-checksum.json; do
+            jq 'del(.files."multiversx.json")' "$checksum_file" > "$checksum_file.tmp" && mv "$checksum_file.tmp" "$checksum_file"
+          done
         env:
           CARGO_NET_GIT_FETCH_WITH_CLI: true
 
