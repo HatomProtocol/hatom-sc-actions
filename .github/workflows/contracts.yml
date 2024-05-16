@@ -57,8 +57,14 @@ on:
       token:
         description: "Github token"
         required: true
-      ssh-private-key:
+      hatom-protocol-deploy-pk:
         description: "Hatom Protocol Deploy SSH private key"
+        required: false
+      hatom-ush-minter-deploy-pk:
+        description: "Hatom USH Minter Deploy SSH private key"
+        required: false
+      hatom-admin-module-deploy-pk:
+        description: "Hatom Admin Module Deploy SSH private key"
         required: false
 
 jobs:
@@ -72,7 +78,10 @@ jobs:
         uses: webfactory/ssh-agent@v0.9.0
         if: inputs.has-private-dependencies
         with:
-          ssh-private-key: ${{ secrets.ssh-private-key }}
+          ssh-private-key: |
+            ${{ secrets.hatom-protocol-deploy-pk }}
+            ${{ secrets.hatom-ush-minter-deploy-pk }}
+            ${{ secrets.hatom-admin-module-deploy-pk }}
 
       - name: Install rust
         uses: actions-rust-lang/setup-rust-toolchain@v1
@@ -119,6 +128,7 @@ jobs:
       - name: Build the wasm contracts
         env:
           RUSTFLAGS: ""
+          CARGO_NET_GIT_FETCH_WITH_CLI: true
         run: sc-meta all build --no-imports --target-dir $(pwd)/target --path .
 
       - name: Run the wasm tests
@@ -209,7 +219,10 @@ jobs:
         uses: webfactory/ssh-agent@v0.9.0
         if: inputs.has-private-dependencies
         with:
-          ssh-private-key: ${{ secrets.ssh-private-key }}
+          ssh-private-key: |
+            ${{ secrets.hatom-protocol-deploy-pk }}
+            ${{ secrets.hatom-ush-minter-deploy-pk }}
+            ${{ secrets.hatom-admin-module-deploy-pk }}
 
       - name: Install rust
         uses: actions-rust-lang/setup-rust-toolchain@v1
@@ -277,7 +290,10 @@ jobs:
         uses: webfactory/ssh-agent@v0.9.0
         if: inputs.has-private-dependencies
         with:
-          ssh-private-key: ${{ secrets.ssh-private-key }}
+          ssh-private-key: |
+            ${{ secrets.hatom-protocol-deploy-pk }}
+            ${{ secrets.hatom-ush-minter-deploy-pk }}
+            ${{ secrets.hatom-admin-module-deploy-pk }}
 
       - uses: actions-rust-lang/setup-rust-toolchain@v1
         with:
