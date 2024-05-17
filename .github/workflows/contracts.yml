@@ -48,11 +48,6 @@ on:
         default: "1.0.27-1"
         required: false
         type: string
-      has-private-dependencies:
-        description: "Project has private dependencies"
-        default: false
-        required: false
-        type: boolean
     secrets:
       token:
         description: "Github token"
@@ -70,7 +65,9 @@ jobs:
 
       - name: Setup Credentials
         uses: webfactory/ssh-agent@v0.9.0
-        if: inputs.has-private-dependencies
+        env:
+          SUPER_SECRET: ${{ secrets.deploy-keys }}
+        if: ${{ env.SUPER_SECRET != '' }}
         with:
           ssh-private-key: ${{ secrets.deploy-keys }}
 
@@ -208,7 +205,9 @@ jobs:
 
       - name: Setup Credentials
         uses: webfactory/ssh-agent@v0.9.0
-        if: inputs.has-private-dependencies
+        env:
+          SUPER_SECRET: ${{ secrets.deploy-keys }}
+        if: ${{ env.SUPER_SECRET != '' }}
         with:
           ssh-private-key: ${{ secrets.deploy-keys }}
 
@@ -276,7 +275,9 @@ jobs:
 
       - name: Setup Credentials
         uses: webfactory/ssh-agent@v0.9.0
-        if: inputs.has-private-dependencies
+        env:
+          SUPER_SECRET: ${{ secrets.deploy-keys }}
+        if: ${{ env.SUPER_SECRET != '' }}
         with:
           ssh-private-key: ${{ secrets.deploy-keys }}
 
