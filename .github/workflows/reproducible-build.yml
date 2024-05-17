@@ -104,7 +104,11 @@ jobs:
           toolchain: ${{ inputs.rust-toolchain }}
           target: wasm32-unknown-unknown
 
-      - name: Fetch all packages
+      - name: Vendored dependencies (if private dependencies are used)
+        env:
+          CARGO_NET_GIT_FETCH_WITH_CLI: true
+          SUPER_SECRET: ${{ secrets.deploy-keys }}
+        if: ${{ env.SUPER_SECRET != '' }}
         run: |
           mkdir .cargo
           shopt -s globstar
@@ -118,8 +122,6 @@ jobs:
           for checksum_file in **/.cargo-checksum.json; do
             jq 'del(.files."multiversx.json")' "$checksum_file" > "$checksum_file.tmp" && mv "$checksum_file.tmp" "$checksum_file"
           done
-        env:
-          CARGO_NET_GIT_FETCH_WITH_CLI: true
 
       - name: Preliminary checks
         if: ${{ inputs.skip_preliminary_checks == false }}
